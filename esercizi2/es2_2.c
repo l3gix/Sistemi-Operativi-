@@ -3,24 +3,31 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
+
+#define MAX 50
 
 int main(void)
 {
-    int fd2,fd1,fout;
-    char buff;
-    fd1 = open("FILE1",O_RDWR);
-    fd2 = open("FILE2",O_TRUNC | O_CREAT | O_RDWR , 0666); 
+    int fd1,fd2,n;
+    char buff[MAX];
+    char buff2;
 
-    fout = dup(1);// prendo il riferimento lo fd  
-    dup2(fd1,0); //assegna un altro fd
-    dup2(fd2,1); //assegna un altro fd 
+    fd1 = open("FILE3",O_CREAT | O_TRUNC | O_RDWR , 0666) ;// apro un file in lettura e nel momento in cui non esite lo crea con i permessi 666
+    fd2 = open("FILE4",O_CREAT | O_TRUNC | O_RDWR , 0666);
 
-    while(read(0,&buff,1) > 0) 
+    n = read(0,&buff,MAX);
+
+    buff[n] = '\0';
+
+    write(fd1,&buff,n);
+
+    while((n = read(fd1,&buff2,1) )> 0)
+        buff[n] = buff2;
+    
+    for(int i = strlen(buff) - 1  ; i >= 0 ; i--)
     {
-        write(1,&buff,1);
+        if(buff[i] != '\n') write(fd2,&buff[i],1);// nel caso incontra lo spazio non lo inserisce 
     }
-
-    dup2(fout,1);
-
-    printf("Ho finito\n");
+    //printf("la stringa %s",buff);
 }
