@@ -29,5 +29,8 @@ int main(void)
     {
         if(buff[i] != '\n') write(fd2,&buff[i],1);// nel caso incontra lo spazio non lo inserisce 
     }
+
+    //Da rifare 
+    
     //printf("la stringa %s",buff);
 }
