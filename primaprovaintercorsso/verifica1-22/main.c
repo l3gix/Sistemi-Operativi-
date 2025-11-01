@@ -37,17 +37,20 @@ int main(int argc,char *argv[])
                         while(read(fd,&c,1) > 0)
                         {
                             if(c == ' ' || c == '\n') inizio = 1;
-                            if(inizio == 1)
+                            if(inizio == 1 && (c != ' ' && c != '\n'))
                             {
                                 if(c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u'
                                     || c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U') 
                                 {
                                     
                                     conta_vocali++;
-                                    inizio = 0;
+                                   
                                 }
                                 
+                                 inizio = 0;
                             }
+
+                            
                         }
 
                     }else if(S_ISLNK(buff.st_mode))
