@@ -14,7 +14,7 @@ int main(int argc,char *argv[])
     struct dirent * directory;
     struct stat buff;
     int fd,num_spazi = 0, num_par = 0;
-    char c;
+    char c,prev;
 
     if((dir = opendir(argv[1])) != NULL)
     {
@@ -25,6 +25,7 @@ int main(int argc,char *argv[])
                 printf("il file inzia con la lettera a/A \n");
                 num_par = 0;
                 num_spazi = 0;
+                
                 if(lstat(directory->d_name,&buff) != -1)
                 {
                     if(S_ISREG(buff.st_mode)) 
@@ -35,7 +36,15 @@ int main(int argc,char *argv[])
                         while(read(fd,&c,1) > 0)
                         {
                             if(c == ' ') num_spazi++;
-                            else if(c == '\n') num_par++;
+                            if(c == '\n')
+                            {
+                                if(prev == '\n')
+                                {
+                                    num_par++;
+                                }
+                            }
+
+                            prev = c;
                         }
                     }else if(S_ISDIR(buff.st_mode))
                     {
