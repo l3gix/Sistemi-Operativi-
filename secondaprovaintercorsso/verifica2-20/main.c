@@ -35,17 +35,17 @@ int main(void)
 
     if(figlio > 0 ) // padre
     {
-        close(fd1[0]); // chiusura out
+        close(fd1[0]); // chiusura lettura da parte del padre
 
-        close(fd2[1]);
+        close(fd2[1]);// chiusara in scrittura da parte del padre da usare successivamente 
 
         printf("Insersci nomefile : ");
         scanf("%s",nomefile);
         printf("Inserisci la stringa : ");
         scanf("%s",stringa);
 
-        write(fd1[1],&nomefile,sizeof(nomefile));
-        write(fd1[1],&stringa,sizeof(stringa));
+        write(fd1[1],nomefile,sizeof(nomefile));
+        write(fd1[1],stringa,sizeof(stringa));
 
         close(fd1[1]);
 
@@ -58,16 +58,16 @@ int main(void)
         wait(NULL);
     }else if(figlio == 0) // figlio
     {
-        close(fd1[1]); // chiusura input
-        close(fd2[0]);
+        close(fd1[1]); // chiusura scrittura da parte del figlio
+        close(fd2[0]); // chiusura lettura da parte del figlio che usera succesivamente 
 
-        read(fd1[0],&nomefile_figlio,sizeof(nomefile_figlio));
-        read(fd1[0],&stringa_figlio,sizeof(stringa_figlio));
+        read(fd1[0],nomefile_figlio,sizeof(nomefile_figlio));
+        read(fd1[0],stringa_figlio,sizeof(stringa_figlio));
 
         close(fd1[0]);
 
         FILE *f = fopen(nomefile_figlio,"r");
-        while(fscanf(f,"%s",input) > 0)
+        while(fscanf(f,"%s",input) > 0) // parto dal fatto che il file abbia per ogni riga una sola parola 
         {
             if(strncmp(input,stringa_figlio,strlen(stringa_figlio)) == 0)conta++;
         }
