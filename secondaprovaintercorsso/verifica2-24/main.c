@@ -34,7 +34,7 @@ int main(void)
 
         scanf("%s",nomefile);
         
-        write(fd[1],&nomefile,sizeof(nomefile)); // scrivo nell pipe
+        write(fd[1],nomefile,sizeof(nomefile)); // scrivo nell pipe
 
         close(fd[1]);
 
@@ -44,10 +44,12 @@ int main(void)
     {
         close(fd[1]);
 
-        read(fd[0],&nomefileinput,sizeof(nomefileinput));
+        read(fd[0],nomefileinput,sizeof(nomefileinput));
 
         close(fd[0]);
+
         execl("./CONTA_SPAZI","CONTA_SPAZI",nomefileinput,NULL);
+
         exit(1);
     }
 }
