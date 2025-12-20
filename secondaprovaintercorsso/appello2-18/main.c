@@ -51,6 +51,7 @@ int main(void)
         close(fd2[0]);
 
         printf("numero di occorenze %d\n",conto_padre);
+        exit(0);
 
     }else if(f1 ==  0) // figlio;
     {
@@ -75,7 +76,7 @@ int main(void)
 
         close(fd2[1]);
 
-
+        exit(0);
 
     }
 
